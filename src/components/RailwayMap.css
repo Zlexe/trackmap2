@@ -1,0 +1,989 @@
+.railway-map {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+  border: 1px solid rgba(129, 151, 178, 0.22);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 48px rgba(56, 75, 100, 0.1);
+  overflow: visible;
+}
+
+.railway-map__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 24px 24px 18px;
+  background:
+    linear-gradient(180deg, rgba(249, 251, 253, 0.96), rgba(243, 247, 251, 0.92)),
+    radial-gradient(circle at top right, rgba(111, 136, 167, 0.12), transparent 28%);
+  border-bottom: 1px solid rgba(129, 151, 178, 0.18);
+}
+
+.railway-map__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.railway-map__eyebrow {
+  color: var(--accent-strong);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.railway-map__title {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.railway-map__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.railway-map__file-label,
+.railway-map__controls > button,
+.railway-map__layer-switcher button,
+.railway-map__tab-btn,
+.railway-map__period-btn,
+.railway-map__all-time-btn,
+.railway-map__clear-all-filters,
+.railway-map__filter-toggle,
+.clear-btn,
+.railway-map__clear-btn-small,
+.railway-map__filter-buttons button,
+.railway-map__risk-buttons button,
+.railway-map__month-btn,
+.railway-map__quarter-btn,
+.device-item,
+.modal-close,
+.railway-map__close-filter {
+  appearance: none;
+  border: 1px solid rgba(129, 151, 178, 0.28);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text-body);
+  border-radius: 12px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.railway-map__file-label:hover,
+.railway-map__controls > button:hover,
+.railway-map__layer-switcher button:hover,
+.railway-map__tab-btn:hover,
+.railway-map__period-btn:hover,
+.railway-map__all-time-btn:hover,
+.railway-map__clear-all-filters:hover,
+.railway-map__filter-toggle:hover,
+.clear-btn:hover,
+.railway-map__clear-btn-small:hover,
+.railway-map__filter-buttons button:hover,
+.railway-map__risk-buttons button:hover,
+.railway-map__month-btn:hover,
+.railway-map__quarter-btn:hover,
+.device-item:hover,
+.modal-close:hover,
+.railway-map__close-filter:hover {
+  border-color: rgba(70, 106, 146, 0.34);
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(56, 75, 100, 0.08);
+  transform: translateY(-1px);
+}
+
+.railway-map__file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  background: rgba(244, 247, 250, 0.98);
+}
+
+.railway-map__file-label--failures {
+  border-color: rgba(160, 92, 92, 0.24);
+}
+
+.railway-map__file-label input {
+  display: none;
+}
+
+.railway-map__controls > button,
+.railway-map__tab-btn,
+.railway-map__period-btn,
+.railway-map__all-time-btn,
+.railway-map__clear-all-filters,
+.railway-map__filter-toggle,
+.clear-btn,
+.railway-map__clear-btn-small,
+.railway-map__filter-buttons button,
+.railway-map__risk-buttons button,
+.railway-map__month-btn,
+.railway-map__quarter-btn,
+.device-item {
+  padding: 10px 14px;
+}
+
+.railway-map__layer-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  background: rgba(233, 239, 246, 0.9);
+  border: 1px solid rgba(129, 151, 178, 0.22);
+  border-radius: 14px;
+}
+
+.railway-map__layer-switcher button {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.railway-map__layer-switcher button.active,
+.railway-map__tab-btn.active,
+.railway-map__period-btn.active,
+.railway-map__month-btn.active,
+.railway-map__quarter-btn.active,
+.railway-map__filter-toggle.active,
+.device-item.active,
+.risk-btn.active {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: #ffffff;
+  box-shadow: 0 14px 24px rgba(70, 106, 146, 0.2);
+}
+
+.railway-map__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  padding: 0;
+  font-size: 0.79rem;
+  color: var(--text-secondary);
+}
+
+.railway-map__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.railway-map__station-marker,
+.railway-map__line-color,
+.railway-map__failure-marker-critical,
+.railway-map__failure-marker-high,
+.railway-map__failure-marker-medium,
+.railway-map__failure-marker-low,
+.railway-map__failure-marker-minimal {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.railway-map__station-marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #4b6c93;
+}
+
+.railway-map__line-color {
+  width: 18px;
+  height: 3px;
+  border-radius: 999px;
+}
+
+.railway-map__line-color.geojson {
+  background: #4b6c93;
+}
+
+.railway-map__failure-marker-critical,
+.railway-map__failure-marker-high,
+.railway-map__failure-marker-medium,
+.railway-map__failure-marker-low,
+.railway-map__failure-marker-minimal {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.railway-map__failure-marker-critical { background: #a64141; }
+.railway-map__failure-marker-high { background: #cb6a44; }
+.railway-map__failure-marker-medium { background: #d18b36; }
+.railway-map__failure-marker-low { background: #7b9a59; }
+.railway-map__failure-marker-minimal { background: #4b6c93; }
+
+.railway-map__calendar-container,
+.railway-map__filters-row,
+.railway-map__device-filter-panel,
+.railway-map__risk-filter-panel {
+  background: rgba(249, 251, 253, 0.94);
+}
+
+.railway-map__calendar-container {
+  padding: 18px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.84);
+  border-bottom: 1px solid rgba(129, 151, 178, 0.14);
+}
+
+.railway-map__calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.railway-map__calendar-tabs,
+.railway-map__date-single,
+.railway-map__date-range,
+.railway-map__period-selector,
+.railway-map__filter-buttons-row,
+.railway-map__filters-row,
+.railway-map__period-buttons,
+.railway-map__risk-buttons,
+.railway-map__months-row,
+.railway-map__quarters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.railway-map__calendar-input,
+.railway-map__select,
+.railway-map__station-search {
+  min-height: 42px;
+  border: 1px solid rgba(129, 151, 178, 0.28);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--text-body);
+  padding: 0 14px;
+  font-size: 0.85rem;
+}
+
+.railway-map__calendar-input {
+  min-width: 220px;
+}
+
+.railway-map__calendar-input--range {
+  min-width: 280px;
+}
+
+.railway-map__calendar-input:focus,
+.railway-map__select:focus,
+.railway-map__station-search:focus {
+  outline: none;
+  border-color: rgba(70, 106, 146, 0.44);
+  box-shadow: 0 0 0 4px rgba(70, 106, 146, 0.12);
+}
+
+.railway-map__all-time-btn,
+.railway-map__clear-all-filters,
+.clear-btn,
+.railway-map__clear-btn-small {
+  color: #8a4b4b;
+}
+
+.railway-map__month-multi-selector,
+.railway-map__quarter-multi-selector,
+.railway-map__device-filter-panel,
+.railway-map__risk-filter-panel,
+.railway-map__filter-panel {
+  border: 1px solid rgba(129, 151, 178, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 18px 38px rgba(56, 75, 100, 0.1);
+}
+
+.railway-map__month-multi-selector,
+.railway-map__quarter-multi-selector {
+  width: 100%;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.railway-map__multi-select-header,
+.railway-map__device-filter-header,
+.railway-map__risk-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(129, 151, 178, 0.14);
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+}
+
+.railway-map__months-grid,
+.railway-map__quarters-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.railway-map__year-group {
+  padding: 12px;
+  background: var(--bg-panel-muted);
+  border: 1px solid rgba(129, 151, 178, 0.14);
+  border-radius: 16px;
+}
+
+.railway-map__year-title {
+  margin-bottom: 10px;
+  color: var(--text-strong);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.railway-map__failures-stats {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  background: rgba(232, 238, 245, 0.92);
+  border: 1px solid rgba(129, 151, 178, 0.18);
+  color: var(--text-secondary);
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+.railway-map__filters-row {
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(129, 151, 178, 0.14);
+}
+
+.railway-map__filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.railway-map__filter-toggle .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: rgba(70, 106, 146, 0.16);
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.railway-map__filter-toggle.active .badge {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+.railway-map__device-filter-panel,
+.railway-map__risk-filter-panel {
+  margin: 0 24px 16px;
+  padding: 18px;
+}
+
+.railway-map__devices-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.device-item {
+  text-align: left;
+}
+
+.risk-btn.critical {
+  color: #8d3d3d;
+}
+
+.risk-btn.high {
+  color: #9a5936;
+}
+
+.risk-btn.medium {
+  color: #9d6c26;
+}
+
+.risk-btn.low {
+  color: #67824d;
+}
+
+.risk-btn.minimal {
+  color: var(--accent-strong);
+}
+
+#map {
+  flex: 1;
+  min-height: 700px;
+  margin: 18px;
+  border: 1px solid rgba(129, 151, 178, 0.18);
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+}
+
+#map [class*="balloon__content"] {
+  overflow: visible !important;
+}
+
+.map-balloon {
+  width: min(400px, 72vw);
+  color: #26384e;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.map-balloon__title {
+  margin-bottom: 8px;
+  color: #466a92;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.map-balloon__meta {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(129, 151, 178, 0.28);
+}
+
+.map-balloon__summary {
+  cursor: pointer;
+  color: #466a92;
+  font-weight: 700;
+}
+
+.map-balloon__failures {
+  max-height: 245px;
+  margin-top: 10px;
+  padding-right: 6px;
+  overflow-y: auto;
+}
+
+.map-balloon__failure {
+  margin-bottom: 9px;
+  padding: 8px;
+  background: rgba(70, 106, 146, 0.06);
+  border-left: 3px solid #466a92;
+  border-radius: 6px;
+}
+
+.map-balloon__more {
+  padding: 10px;
+  color: #6f7f92;
+  font-style: italic;
+  text-align: center;
+}
+
+.map-balloon__button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #466a92;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.map-balloon__button:hover {
+  background: #385879;
+}
+
+.railway-map__modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(33, 46, 63, 0.28);
+  backdrop-filter: blur(8px);
+  z-index: 60;
+}
+
+.railway-map__modal-content {
+  width: min(1180px, 100%);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid rgba(129, 151, 178, 0.22);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px rgba(46, 63, 85, 0.18);
+  overflow: hidden;
+}
+
+.railway-map__modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 22px;
+  background: var(--bg-panel-muted);
+  border-bottom: 1px solid rgba(129, 151, 178, 0.16);
+}
+
+.railway-map__modal-header h3 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 1.2rem;
+}
+
+.modal-close,
+.railway-map__close-filter {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 10px;
+  color: var(--text-secondary);
+}
+
+.railway-map__modal-body {
+  overflow: auto;
+  padding: 22px;
+}
+
+.station-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.station-info-grid div {
+  padding: 14px 16px;
+  border: 1px solid rgba(129, 151, 178, 0.16);
+  border-radius: 16px;
+  background: var(--bg-panel-muted);
+  color: var(--text-body);
+}
+
+.station-info-grid strong {
+  color: var(--text-strong);
+}
+
+.failures-list h4 {
+  margin: 0 0 12px;
+  color: var(--text-strong);
+  font-size: 1rem;
+}
+
+.failures-table-container {
+  max-height: 50vh;
+  overflow: auto;
+  border: 1px solid rgba(129, 151, 178, 0.18);
+  border-radius: 18px;
+}
+
+.failures-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.failures-table th,
+.failures-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(129, 151, 178, 0.12);
+  text-align: left;
+  color: var(--text-body);
+  font-size: 0.84rem;
+  vertical-align: top;
+}
+
+.failures-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f1f5f9;
+  color: var(--text-strong);
+  font-weight: 700;
+}
+
+.failures-table tr:hover td {
+  background: rgba(237, 242, 247, 0.7);
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.risk-badge.critical {
+  background: rgba(166, 65, 65, 0.12);
+  color: #913c3c;
+  border-color: rgba(166, 65, 65, 0.18);
+}
+
+.risk-badge.high {
+  background: rgba(203, 106, 68, 0.12);
+  color: #a15537;
+  border-color: rgba(203, 106, 68, 0.18);
+}
+
+.risk-badge.medium {
+  background: rgba(209, 139, 54, 0.12);
+  color: #96641f;
+  border-color: rgba(209, 139, 54, 0.18);
+}
+
+.risk-badge.low {
+  background: rgba(123, 154, 89, 0.12);
+  color: #5d7a43;
+  border-color: rgba(123, 154, 89, 0.18);
+}
+
+.risk-badge.minimal {
+  background: rgba(75, 108, 147, 0.12);
+  color: #466a92;
+  border-color: rgba(75, 108, 147, 0.18);
+}
+
+.railway-map__filter-panel {
+  position: absolute;
+  top: 110px;
+  right: 18px;
+  width: min(360px, calc(100vw - 36px));
+  max-height: calc(100vh - 180px);
+  padding: 20px;
+  overflow: auto;
+  z-index: 40;
+}
+
+.railway-map__filter-panel h3,
+.railway-map__filter-section h4 {
+  margin: 0 0 12px;
+  color: var(--text-strong);
+}
+
+.railway-map__filter-section {
+  margin-bottom: 22px;
+}
+
+.railway-map__filter-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.railway-map__filter-list {
+  border: 1px solid rgba(129, 151, 178, 0.16);
+  border-radius: 16px;
+  padding: 8px;
+  background: #fbfcfd;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+.filter-item:hover {
+  background: rgba(237, 242, 247, 0.85);
+}
+
+.filter-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-strong);
+}
+
+.filter-item label,
+.railway-map__checkbox-label {
+  color: var(--text-body);
+  font-size: 0.82rem;
+}
+
+.filter-item .color-badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.railway-map__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.railway-map__status-panel {
+  position: static;
+  max-width: none;
+  margin: 0 18px 12px auto;
+  width: fit-content;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(129, 151, 178, 0.22);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20px 34px rgba(56, 75, 100, 0.12);
+  color: var(--text-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.railway-map__status-panel.error {
+  border-color: rgba(166, 65, 65, 0.28);
+  color: #8d3d3d;
+}
+
+.railway-map__status-panel.success {
+  border-color: rgba(70, 106, 146, 0.24);
+  color: var(--text-body);
+}
+
+.railway-map__stats {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 8px;
+  width: auto;
+  margin: 0 18px 18px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(129, 151, 178, 0.18);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 34px rgba(56, 75, 100, 0.1);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.railway-map__stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--bg-panel-muted);
+}
+
+.railway-map__stat-item span {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.railway-map__stat-item strong {
+  color: var(--text-strong);
+  font-size: 1rem;
+}
+
+.railway-map__progress-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: rgba(148, 164, 184, 0.12);
+  z-index: 55;
+}
+
+.railway-map__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-soft) 0%, var(--accent-strong) 100%);
+}
+
+.react-datepicker {
+  border: 1px solid rgba(129, 151, 178, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 20px 34px rgba(56, 75, 100, 0.12);
+}
+
+.react-datepicker__header {
+  background: #f5f7fa;
+  border-bottom: 1px solid rgba(129, 151, 178, 0.14);
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: var(--text-body);
+}
+
+.react-datepicker__day:hover {
+  background: rgba(111, 136, 167, 0.14);
+  border-radius: 999px;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__day--range-start,
+.react-datepicker__day--range-end {
+  background: var(--accent-strong);
+  color: #ffffff;
+  border-radius: 999px;
+}
+
+.react-datepicker__day--in-range {
+  background: rgba(111, 136, 167, 0.16);
+  color: var(--text-body);
+}
+
+.ymaps-2-1-79-balloon__content {
+  color: var(--text-body) !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+}
+
+.ymaps-2-1-79-balloon__tail::after {
+  background: #ffffff !important;
+}
+
+.ymaps-2-1-79-balloon__layout {
+  border-radius: 18px !important;
+  box-shadow: 0 20px 40px rgba(46, 63, 85, 0.16) !important;
+}
+
+@media (max-width: 1120px) {
+  .railway-map__controls {
+    gap: 8px;
+  }
+
+  .railway-map__stats {
+    grid-template-columns: repeat(2, minmax(96px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .railway-map {
+    border-radius: 18px;
+  }
+
+  .railway-map__header,
+  .railway-map__calendar-container,
+  .railway-map__filters-row {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .railway-map__device-filter-panel,
+  .railway-map__risk-filter-panel {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  #map {
+    margin: 16px;
+    border-radius: 18px;
+    min-height: 850px;
+  }
+
+  .railway-map__filter-panel {
+    top: 100px;
+    right: 16px;
+  }
+}
+
+@media (max-width: 720px) {
+  .railway-map__header {
+    gap: 14px;
+    padding-top: 18px;
+  }
+
+  .railway-map__controls,
+  .railway-map__calendar-tabs,
+  .railway-map__period-buttons,
+  .railway-map__filter-buttons-row,
+  .railway-map__filters-row {
+    gap: 8px;
+  }
+
+  .railway-map__controls > button,
+  .railway-map__tab-btn,
+  .railway-map__period-btn,
+  .railway-map__all-time-btn,
+  .railway-map__clear-all-filters,
+  .railway-map__filter-toggle,
+  .railway-map__file-label {
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 0.78rem;
+  }
+
+  .railway-map__calendar-input,
+  .railway-map__select,
+  .railway-map__station-search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .railway-map__calendar-input--range {
+    min-width: 0;
+  }
+
+  .railway-map__modal-overlay {
+    padding: 14px;
+  }
+
+  .railway-map__modal-content {
+    max-height: calc(100vh - 28px);
+  }
+
+  .railway-map__stats,
+  .railway-map__status-panel {
+    width: auto;
+    max-width: none;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  .railway-map__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 14px;
+  }
+
+  .railway-map__status-panel {
+    margin-bottom: 10px;
+  }
+}

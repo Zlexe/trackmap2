@@ -1,0 +1,80 @@
+:root {
+  color-scheme: light;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --bg-canvas: #eef2f7;
+  --bg-panel: rgba(255, 255, 255, 0.88);
+  --bg-panel-strong: #ffffff;
+  --bg-panel-muted: #f5f7fa;
+  --bg-subtle: #e8edf3;
+
+  --text-strong: #1f2b3d;
+  --text-body: #33465f;
+  --text-secondary: #576b87;
+  --text-muted: #8091a6;
+
+  --accent-strong: #466a92;
+  --accent-soft: #6f88a7;
+  --accent-subtle: #dce6f1;
+  --accent-line: rgba(70, 106, 146, 0.18);
+
+  --border-soft: rgba(148, 164, 184, 0.2);
+  --border-strong: rgba(129, 151, 178, 0.3);
+  --shadow-soft: 0 10px 34px rgba(60, 79, 105, 0.08);
+  --shadow-panel: 0 24px 48px rgba(56, 75, 100, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg-canvas);
+  color: var(--text-body);
+  overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(199, 210, 221, 0.28);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(118, 138, 163, 0.78);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(86, 109, 137, 0.9);
+}
